@@ -17,11 +17,6 @@ def create_connection(db_file):
 
     return conn
 def create_table(conn, create_table_sql):
-    """ create a table from the create_table_sql statement
-    :param conn: Connection object
-    :param create_table_sql: a CREATE TABLE statement
-    :return:
-    """
     try:
         c = conn.cursor()
         c.execute(create_table_sql)
@@ -66,16 +61,9 @@ def select_all_messages_sync(conn):
 
     for row in rows: 
         print(row[0], row[1], row[2][0:40], row[3], row[4])
-        #update_msg(conn, ("saved", row[1]))
-        #time.sleep(10)
     return "ok"
 
 def select_message_byid(conn, msg_id):
-    """
-    Query all rows in the tasks table
-    :param conn: the Connection object
-    :return:
-    """
     cur = conn.cursor()
     cur.execute("SELECT * FROM messages where msg_id=?", (msg_id,))
 
@@ -84,14 +72,7 @@ def select_message_byid(conn, msg_id):
     #for row in rows: print(row)
     return len(rows), rows
 
-async def main222():
-    #async for d in clnt.iter_dialogs():
-    #    if "Kogan" in d.title:
-    #        print(d.id, d.title, d.name)
-    #        print("#"*30)
-    #    #break
-    #await clnt.send_message("the_schrodinger_cat", "Shalom.")
-
+async def main():
     channel = await clnt.get_entity('Bid_Kogan')
     messages = await clnt.get_messages(channel, limit = 10)
     print("ttl len:", len(messages))
@@ -114,7 +95,7 @@ async def main222():
     
     pass
 
-async def main():
+async def main_test():
     #await clnt.send_message("the_schrodinger_cat", "Shalom.")
     await select_all_messages(conn)
 
@@ -128,11 +109,6 @@ sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS messages (
                                     ); """
 create_table(conn, sql_create_projects_table)
 
-#now=datetime.timestamp(datetime.now())
-#data=(str(now)+" msgId", "msgText khdkashdakhdakhdad", "msgPeerId 12313123123", "msg state")
-#add_msg(conn, data)
-
-#print("num:", select_all_message_byid(conn, "1618351747.48352 msgId"))
 with clnt:
     clnt.loop.run_until_complete(main222())
 clnt.disconnect()
