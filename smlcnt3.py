@@ -110,7 +110,7 @@ sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS messages (
 create_table(conn, sql_create_projects_table)
 
 with clnt:
-    clnt.loop.run_until_complete(main222())
+    clnt.loop.run_until_complete(main())
 clnt.disconnect()
 
 select_all_messages_sync(conn)
